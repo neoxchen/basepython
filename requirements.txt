@@ -1,0 +1,6 @@
+mysql-connector-python==8.0.29
+numpy==1.22.3
+pytz==2022.1
+beautifulsoup4==4.11.1
+requests==2.27.1
+git+https://github.com/Pycord-Development/pycord@master#pychord
