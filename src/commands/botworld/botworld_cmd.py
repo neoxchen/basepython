@@ -17,22 +17,26 @@ class BotView(View):
 
     @discord.ui.button(label="Basics", disabled=True)
     async def basics_callback(self, button, interaction: discord.Interaction):
-        self.disable_all_items(exclusions=[button])
+        self.enable_all_items(exclusions=[button])
+        button.disabled = True
         await interaction.response.edit_message(embed=self.bot.get_general_embedded(), view=self)
 
     @discord.ui.button(label="Abilities")
     async def abilities_callback(self, button, interaction):
-        self.disable_all_items(exclusions=[button])
+        self.enable_all_items(exclusions=[button])
+        button.disabled = True
         await interaction.response.edit_message(embed=self.bot.get_abilities_embedded(), view=self)
 
     @discord.ui.button(label="AI Tree")
     async def ai_callback(self, button, interaction):
-        self.disable_all_items(exclusions=[button])
+        self.enable_all_items(exclusions=[button])
+        button.disabled = True
         await interaction.response.edit_message(embed=self.bot.get_ai_embedded(), view=self)
 
     @discord.ui.button(label="Stats")
     async def stats_callback(self, button, interaction):
-        self.disable_all_items(exclusions=[button])
+        self.enable_all_items(exclusions=[button])
+        button.disabled = True
         await interaction.response.edit_message(embed=self.bot.get_stats_embedded(), view=self)
 
     async def on_timeout(self):
