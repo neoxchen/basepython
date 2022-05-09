@@ -25,12 +25,14 @@ SCHEDULER_DATABASE_INTERVAL = 60
 ENABLED_SERVERS = {
     858926254719107092,  # Libenchurl
     552017106611208194,  # Base emotes
+    972901791844958219,  # Void
 }
 
 # Enabled channels
 ENABLED_CHANNELS = {
     563785796050485259,  # MemeOE >> testing channel
     453918676022722561,  # MOE >> moe-bot
+    973242909619019817,  # Void >> bot-spam
 }
 
 ###########################

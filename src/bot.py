@@ -33,7 +33,7 @@ class BotClient(discord.Client):
     async def on_ready(self):
         """ Called when the Discord bot is online, sets bot status """
         log.info(f"Bot is online! Hello (happy) world from {self.user}!")
-        await self.change_presence(activity=discord.Activity(name="with One", type=1))
+        await self.change_presence(activity=discord.Activity(name="with Breeze", type=1))
 
     async def on_message(self, message):
         """
