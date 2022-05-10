@@ -1,9 +1,11 @@
+import json
 from typing import List, Tuple, Dict
 
 import discord
 
-from src.data import colors
+from src.data import colors, emotes
 from src.data.settings import URL_BOTWORLD_WIKI
+from src.utils import log_util
 
 
 class Bot:
@@ -47,6 +49,12 @@ class Bot:
     def get_wiki_url(self):
         return f"{URL_BOTWORLD_WIKI}{self.name.lower()}"
 
+    def get_class_emote(self):
+        return emotes.get_class_emote(self.bot_class)
+
+    def get_rarity_emote(self):
+        return emotes.get_rarity_emote(self.rarity)
+
     # Embedded generation methods
     def get_general_embedded(self):
         embedded = discord.Embed(
@@ -57,8 +65,8 @@ class Bot:
         )
         embedded.set_thumbnail(url=self.icon_url)
 
-        embedded.add_field(name="**Basics:**", value=f"Class: **{self.bot_class}**\n"
-                                                     f"Rarity: **{self.rarity}**\n"
+        embedded.add_field(name="**Basics:**", value=f"Class: {self.get_class_emote()} **{self.bot_class}**\n"
+                                                     f"Rarity: {self.get_rarity_emote()} **{self.rarity}**\n"
                                                      f"Obtain: **{self.acquisition}**",
                            inline=False)
         return embedded
@@ -100,4 +108,50 @@ class Bot:
             formatted_stats += f"{level:9s} {stat_list[0]:9s} {stat_list[1]:9s} {stat_list[2]:9s} {stat_list[3]:9s}\n"
         formatted_stats = formatted_stats[:-1] + "```"
         embedded.add_field(name=f"-", value=formatted_stats)
+        return embedded
+
+
+class BotList:
+    """ Contains a list of bots and various GET methods """
+
+    def __init__(self):
+        with open("data/botworld/bots.json") as f:
+            data_bots = json.load(f)
+        self.data_bots = data_bots
+
+        count = 0
+        for bot_class in self.data_bots["bot_classes"]:
+            count += len(self.data_bots["bots"][bot_class])
+        self.bot_count = count
+        log_util.info(f"Loaded BotList with {self.bot_count} bots!")
+
+    def get_bot_count(self):
+        return self.bot_count
+
+    def get_embedded_by_class(self, bot_class):
+        embedded = discord.Embed(
+            title=f"**List of Bots**",
+            description=f"There are {self.get_bot_count()} bots currently in BotWorld Adventure",
+            color=colors.COLOR_BOTWORLD
+        )
+        embedded.add_field(name=f"{emotes.get_class_emote(bot_class)} **{bot_class.title()} ({len(self.data_bots['bots'][bot_class])}):**",
+                           value="--", inline=False)
+
+        count = 0
+        value = "> "
+        prev_rarity = None
+        for bot in self.data_bots["bots"][bot_class]:
+            rarity = self.data_bots['bots'][bot_class][bot]['rarity']
+            if rarity != prev_rarity:
+                if prev_rarity is not None:
+                    embedded.add_field(name=f"{emotes.get_rarity_emote(prev_rarity)} **{prev_rarity} ({count}):**", value=value[:-2], inline=False)
+                    count = 0
+                    value = "\n> "
+                prev_rarity = rarity
+
+            value += f"{bot}, "
+            count += 1
+
+        # Add the last one
+        embedded.add_field(name=f"{emotes.get_rarity_emote(prev_rarity)} **{prev_rarity} ({count}):**", value=value[:-2], inline=False)
         return embedded

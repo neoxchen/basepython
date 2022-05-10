@@ -1,0 +1,138 @@
+{
+  "bot_classes": [
+    "TANK",
+    "SPLASHER",
+    "SNIPER",
+    "CHASER",
+    "EVADER",
+    "BRAWLER",
+    "SUPPORT"
+  ],
+  "bots": {
+    "TANK": {
+      "barrie": {
+        "rarity": "COMMON"
+      },
+      "berserker": {
+        "rarity": "SPECIAL"
+      },
+      "bullwark": {
+        "rarity": "RARE"
+      },
+      "chainer": {
+        "rarity": "RARE"
+      },
+      "thump": {
+        "rarity": "RARE"
+      },
+      "nozzle": {
+        "rarity": "EPIC"
+      }
+    },
+    "SPLASHER": {
+      "lobbie": {
+        "rarity": "COMMON"
+      },
+      "rocketeer": {
+        "rarity": "COMMON"
+      },
+      "bombee": {
+        "rarity": "SPECIAL"
+      },
+      "mort": {
+        "rarity": "RARE"
+      },
+      "pluggie": {
+        "rarity": "RARE"
+      },
+      "sheller": {
+        "rarity": "EPIC"
+      }
+    },
+    "SNIPER": {
+      "chomp": {
+        "rarity": "COMMON"
+      },
+      "longshot": {
+        "rarity": "SPECIAL"
+      },
+      "pupil": {
+        "rarity": "RARE"
+      },
+      "bigshot": {
+        "rarity": "EPIC"
+      },
+      "bullseye": {
+        "rarity": "EPIC"
+      }
+    },
+    "CHASER": {
+      "slash": {
+        "rarity": "COMMON"
+      },
+      "slicer": {
+        "rarity": "SPECIAL"
+      },
+      "ram": {
+        "rarity": "RARE"
+      },
+      "fork": {
+        "rarity": "EPIC"
+      },
+      "phantom": {
+        "rarity": "EPIC"
+      }
+    },
+    "EVADER": {
+      "icicool": {
+        "rarity": "COMMON"
+      },
+      "dune-bug": {
+        "rarity": "SPECIAL"
+      },
+      "flamer": {
+        "rarity": "SPECIAL"
+      },
+      "froggy": {
+        "rarity": "RARE"
+      },
+      "frosty": {
+        "rarity": "RARE"
+      },
+      "hornet": {
+        "rarity": "EPIC"
+      }
+    },
+    "BRAWLER": {
+      "yanky": {
+        "rarity": "COMMON"
+      },
+      "brute": {
+        "rarity": "SPECIAL"
+      },
+      "scatter": {
+        "rarity": "SPECIAL"
+      },
+      "ko": {
+        "rarity": "RARE"
+      },
+      "virus": {
+        "rarity": "EPIC"
+      }
+    },
+    "SUPPORT": {
+      "tether": {
+        "rarity": "SPECIAL"
+      },
+      "halo": {
+        "rarity": "RARE"
+      },
+      "beat": {
+        "rarity": "EPIC"
+      },
+      "gusto": {
+        "rarity": "EPIC"
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import discord
 
 from src.data import colors, settings, emojis
+from src.utils import log_util
 from src.utils.command_handler import CommandHandler
 
 
@@ -68,7 +69,17 @@ class PingCommandHandler(CommandHandler):
         await self.bot.reply(message, content=f"{emojis.PING_PONG} Pong! {int(self.bot.latency * 1000)}ms")
 
 
+class EchoCommandHandler(CommandHandler):
+    def __init__(self, bot):
+        super().__init__(bot, "echo", [], "I will say what you said back to you", "", "")
+
+    async def on_command(self, author, command, args, message, channel, guild):
+        log_util.info(f"Echoing message: {message.content}")
+        await self.bot.reply(message, content=f"Echoing: {message.content}")
+
+
 def register_all(bot):
     """ Register all commands in this module """
     bot.register_command_handler(HelpCommandHandler(bot))
     bot.register_command_handler(PingCommandHandler(bot))
+    bot.register_command_handler(EchoCommandHandler(bot))
