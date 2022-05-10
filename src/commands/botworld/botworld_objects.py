@@ -115,7 +115,7 @@ class BotList:
     """ Contains a list of bots and various GET methods """
 
     def __init__(self):
-        with open("data/botworld/bots.json") as f:
+        with open("src/data/botworld/bots.json") as f:
             data_bots = json.load(f)
         self.data_bots = data_bots
 
