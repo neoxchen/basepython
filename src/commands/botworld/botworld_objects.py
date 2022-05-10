@@ -149,7 +149,7 @@ class BotList:
                     value = "\n> "
                 prev_rarity = rarity
 
-            value += f"{bot}, "
+            value += f"{bot.title()}, "
             count += 1
 
         # Add the last one
