@@ -174,6 +174,10 @@ class BotClient(discord.Client):
     # EXPRESS ACTION METHODS #
     ##########################
 
+    async def send_message_to_channel(self, channel_id: int, content=None, embedded=None, view=None):
+        channel = self.get_channel(channel_id)
+        await channel.send(content=content, embed=embedded, view=view)
+
     @staticmethod
     async def send_typing_packet(channel):
         """
