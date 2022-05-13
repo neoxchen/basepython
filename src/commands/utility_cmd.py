@@ -1,4 +1,5 @@
 import discord
+import requests
 
 from src.data import colors, settings, emojis
 from src.utils import log_util
@@ -78,8 +79,27 @@ class EchoCommandHandler(CommandHandler):
         await self.bot.reply(message, content=f"Echoing: {message.content}")
 
 
+class FactCommandHandler(CommandHandler):
+    def __init__(self, bot):
+        super().__init__(bot, "fact", ["ff"], "I will generate a random fun fact", "", "")
+
+    async def on_command(self, author, command, args, message, channel, guild):
+        facts_url = "http://numbersapi.com/random"
+        response = requests.get(facts_url)
+        if response.status_code != 200:
+            await self.bot.reply(message, content="Unable to reach the facts API, try again later")
+            return
+        embedded = discord.Embed(
+            title=f"Random Number Fact",
+            description=response.content.decode(),
+            color=colors.COLOR_NLP
+        )
+        await self.bot.reply(message, embedded=embedded)
+
+
 def register_all(bot):
     """ Register all commands in this module """
     bot.register_command_handler(HelpCommandHandler(bot))
     bot.register_command_handler(PingCommandHandler(bot))
     bot.register_command_handler(EchoCommandHandler(bot))
+    bot.register_command_handler(FactCommandHandler(bot))
