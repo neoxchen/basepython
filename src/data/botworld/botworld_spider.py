@@ -16,7 +16,7 @@ def fetch_bot(name):
 
     # Cache hit, early return
     if name in bot_cache and bot_cache[name]["expiration"] > time.time():
-        return bot_cache[name]
+        return Bot.from_json(bot_cache[name])
 
     # Cache miss, fetch from web
     bot_info = fetch_bot_from_wiki(name)
