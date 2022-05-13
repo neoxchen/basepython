@@ -114,16 +114,15 @@ class Bot:
         return embedded
 
     # Save and load as JSON
-    def to_json(self) -> str:
-        json_obj = {}
-
-        json_obj["name"] = self.name
-        json_obj["description"] = self.description
-        json_obj["icon_url"] = self.icon_url
-
-        json_obj["bot_class"] = self.bot_class
-        json_obj["rarity"] = self.rarity
-        json_obj["acquisition"] = self.acquisition
+    def to_json(self) -> Dict[str, any]:
+        json_obj = {
+            "name": self.name,
+            "description": self.description,
+            "icon_url": self.icon_url,
+            "bot_class": self.bot_class,
+            "rarity": self.rarity,
+            "acquisition": self.acquisition
+        }
 
         # JSON-ify abilities
         abilities = {
@@ -151,7 +150,7 @@ class Bot:
         json_obj["ai"] = ai_tree
 
         json_obj["stats"] = self.stats
-        return json.dumps(json_obj)
+        return json_obj
 
     @staticmethod
     def from_json(json_obj: str):
