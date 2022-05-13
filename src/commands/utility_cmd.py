@@ -92,7 +92,7 @@ class FactCommandHandler(CommandHandler):
         embedded = discord.Embed(
             title=f"Random Number Fact",
             description=response.content.decode(),
-            color=colors.COLOR_NLP
+            color=colors.COLOR_FACTS
         )
         await self.bot.reply(message, embedded=embedded)
 
