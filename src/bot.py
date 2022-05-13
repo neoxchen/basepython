@@ -61,6 +61,11 @@ class BotClient(discord.Client):
                     f"Chat message \"{message.content}\" received from {author.display_name}#{author.discriminator}!")
             return
 
+        # TODO: remove when changing this prefix
+        # TODO: temp fix to remove detection of '~~'
+        if message.content[1] == settings.BOT_PREFIX:
+            return
+
         # Parse data
         info = message.content[len(settings.BOT_PREFIX):].split()
         command = info[0]
