@@ -1,13 +1,37 @@
+import json
 import re
+import time
 
 import requests
 from bs4 import BeautifulSoup
 
-from src.commands.botworld.botworld_objects import Bot
+from src.data.botworld.botworld_objects import Bot
 from src.data.settings import URL_BOTWORLD_WIKI
 
 
 def fetch_bot(name):
+    # Check cache
+    with open("src/data/botworld/cache.json") as f:
+        bot_cache = json.load(f)
+
+    # Cache hit, early return
+    if name in bot_cache and bot_cache[name]["expiration"] > time.time():
+        return bot_cache[name]
+
+    # Cache miss, fetch from web
+    bot_info = fetch_bot_from_wiki(name)
+
+    # Write to cache
+    bot_cache[name] = bot_info.to_json()
+    bot_cache[name]["expiration"] = time.time() + 60 * 60
+    with open("src/data/botworld/cache.json", "w") as f:
+        json.dump(bot_cache, f)
+
+    # Return bot info
+    return bot_info
+
+
+def fetch_bot_from_wiki(name):
     page = requests.get(f"{URL_BOTWORLD_WIKI}/{name}")
     soup = BeautifulSoup(page.content, "html.parser")
     bot_info = soup.find("div", class_="bot-infos")
@@ -91,7 +115,8 @@ def fetch_bot(name):
 
     # print(f"STATS: {bot_stats}")
 
-    bot = Bot(bot_name, bot_description, bot_icon, bot_class, bot_rarity, bot_acquisition, bot_abilities, bot_ai_tree, bot_stats)
+    bot = Bot(bot_name, bot_description, bot_icon, bot_class, bot_rarity, bot_acquisition, bot_abilities, bot_ai_tree,
+              bot_stats)
     return bot
 
 

@@ -1,9 +1,9 @@
 import discord
 from discord.ui import View, Button
 
-from src.commands.botworld.botworld_objects import BotList
-from src.commands.botworld.botworld_spider import fetch_bot
 from src.data import emotes
+from src.data.botworld.botworld_objects import BotList
+from src.data.botworld.botworld_spider import fetch_bot
 from src.data.settings import BOT_PREFIX
 from src.utils.command_handler import CommandHandler
 

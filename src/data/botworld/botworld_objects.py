@@ -46,6 +46,9 @@ class Bot:
     def ability_count(self):
         return len(self.abilities)
 
+    def ai_count(self):
+        return len(self.ai)
+
     def get_wiki_url(self):
         return f"{URL_BOTWORLD_WIKI}{self.name.lower()}"
 
@@ -110,6 +113,74 @@ class Bot:
         embedded.add_field(name=f"-", value=formatted_stats)
         return embedded
 
+    # Save and load as JSON
+    def to_json(self) -> str:
+        json_obj = {}
+
+        json_obj["name"] = self.name
+        json_obj["description"] = self.description
+        json_obj["icon_url"] = self.icon_url
+
+        json_obj["bot_class"] = self.bot_class
+        json_obj["rarity"] = self.rarity
+        json_obj["acquisition"] = self.acquisition
+
+        # JSON-ify abilities
+        abilities = {
+            "count": self.ability_count(),
+            "list": []
+        }
+        for ability in self.abilities:
+            abilities["list"].append({
+                "name": ability[0],
+                "description": ability[1],
+                "stats": ability[2]
+            })
+        json_obj["abilities"] = abilities
+
+        # JSON-ify AI tree
+        ai_tree = {
+            "count": self.ai_count(),
+            "list": []
+        }
+        for ai in self.ai:
+            options = {}
+            for option in ai:
+                options[option[0]] = option[1]
+            ai_tree["list"].append(options)
+        json_obj["ai"] = ai_tree
+
+        json_obj["stats"] = self.stats
+        return json.dumps(json_obj)
+
+    @staticmethod
+    def from_json(json_obj: str):
+        json_obj = json.loads(json_obj)
+        name = json_obj["name"]
+        description = json_obj["description"]
+        icon_url = json_obj["icon_url"]
+
+        bot_class = json_obj["bot_class"]
+        rarity = json_obj["rarity"]
+        acquisition = json_obj["acquisition"]
+
+        abilities_json = json_obj["abilities"]
+        abilities = []
+        for a in range(abilities_json["count"]):
+            abilities.append((abilities_json["list"][a]["name"],
+                              abilities_json["list"][a]["description"],
+                              abilities_json["list"][a]["stats"]))
+
+        ai = []
+        ai_json = json_obj["ai"]
+        for options in ai_json["list"]:
+            ai.append([(a[0], a[1]) for a in options.items()])
+
+        stats = json_obj["stats"]
+
+        return Bot(name, description, icon_url, bot_class, rarity, acquisition,
+                   abilities, ai, stats)
+
 
 class BotList:
     """ Contains a list of bots and various GET methods """
@@ -155,3 +226,15 @@ class BotList:
         # Add the last one
         embedded.add_field(name=f"{emotes.get_rarity_emote(prev_rarity)} **{prev_rarity} ({count}):**", value=value[:-2], inline=False)
         return embedded
+
+
+if __name__ == "__main__":
+    test_bot = Bot("Flamer", "Hot Hot", "icon_url", "EVADER", "SPECIAL",
+                   "acquisition", [("ability1", "desc1", "stat1"), ("ability2", "desc2", "stat2")],
+                   [[("1a", "1ad"), ("1b", "1bd")], [("2c", "2cd")]],
+                   {"lv1": ["hp", "atk", "dps", "spd"]})
+    bot_json = test_bot.to_json()
+    print(bot_json)
+
+    b2 = Bot.from_json(bot_json)
+    print(b2.to_json())
